@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount CtRegisterMicroservice::Engine => "/ct-register-microservice"
+  mount CtRegisterMicroservice::Engine => "/"
 end

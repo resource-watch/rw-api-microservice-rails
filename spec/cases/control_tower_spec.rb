@@ -2,7 +2,15 @@ require 'spec_helper'
 
 RSpec.describe "CtRegisterMicroservice::API" do
   before(:each) do
-    @service = CtRegisterMicroservice::API.new('http://control-tower.com',  'api-token-value')
+    CtRegisterMicroservice.configure do |config|
+      config.ct_url = 'http://control-tower.com'
+      config.ct_token = 'token'
+      config.swagger = __dir__ + '/../mocks/mock-swagger.json'
+      config.name = 'Test'
+    end
+
+
+    @service = CtRegisterMicroservice::ControlTower.new()
   end
   it "makes query requests" do
     expect(CtRegisterMicroservice).to receive(:make_request).and_return(CtRegisterMicroservice::HTTPService::Response.new(200, "", ""))
@@ -34,7 +42,7 @@ RSpec.describe "CtRegisterMicroservice::API" do
     request_url = "http://control-tower.com/api/v1/other-microservice"
     request_content = {
       headers: {
-        Authorization: 'Bearer api-token-value'
+        Authorization: 'Bearer token'
       }
     }
 
@@ -50,8 +58,15 @@ end
 
 RSpec.describe "CtRegisterMicroservice::API dry run requests" do
   before(:each) do
-    CtRegisterMicroservice.config.dry_run = true
-    @service = CtRegisterMicroservice::API.new('http://control-tower.com',  'api-token-value')
+    CtRegisterMicroservice.configure do |config|
+      config.ct_url = 'cturl.com'
+      config.ct_token = 'token'
+      config.swagger = __dir__ + '/../mocks/mock-swagger.json'
+      config.name = 'Test'
+      config.dry_run = true
+    end
+
+    @service = CtRegisterMicroservice::ControlTower.new()
   end
   it "dry runs query requests" do
     expect(CtRegisterMicroservice).to_not receive(:make_request)

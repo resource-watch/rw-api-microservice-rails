@@ -1,23 +1,29 @@
 module CtRegisterMicroservice
-  class API
-    def initialize(ct_url = nil, ct_token = nil)
-      @ct_token = ct_token || CtRegisterMicroservice.config.ct_token
-      @ct_url = ct_url || CtRegisterMicroservice.config.ct_url
-
-      if @ct_url.nil?
-        raise MissingCTURLError, 'No Control Tower URL defined'
+  class ControlTower
+    def initialize()
+      if CtRegisterMicroservice.config.ct_url.nil?
+        raise MissingConfigError, 'Could not register microservice - No Control Tower URL defined'
       end
-      if @ct_token.nil?
-        raise MissingCTTokenError, 'No Control Tower auth token found'
+      if CtRegisterMicroservice.config.ct_token.nil?
+        raise MissingConfigError, 'Could not register microservice - No Control Tower auth token found'
+      end
+      if CtRegisterMicroservice.config.swagger.nil?
+        raise MissingConfigError, 'Could not register microservice - No swagger file defined'
+      end
+      if !File.exist?(CtRegisterMicroservice.config.swagger)
+        raise MissingConfigError, 'Could not register microservice - Swagger file path ' + File.absolute_path(CtRegisterMicroservice.config.swagger) + 'does not match a file'
+      end
+      if CtRegisterMicroservice.config.name.nil?
+        raise MissingConfigError, 'Could not register microservice - Microservice name not defined'
       end
 
       @dry_run = CtRegisterMicroservice.config.dry_run || false
       @credentials = {}
-      @credentials['ct_url'] = @ct_url
+      @credentials['ct_url'] = CtRegisterMicroservice.config.ct_url
       @options = OpenStruct.new
     end
 
-    attr_reader :credentials, :options, :response, :ct_url
+    attr_reader :credentials, :options, :response, :ct_url, :swagger, :name
 
     def send_query(query)
       options.endpoint = "sql"
@@ -52,7 +58,7 @@ module CtRegisterMicroservice
       options.http_method = method
       options.endpoint = uri
       options.headers = headers
-      options.headers['Authorization'] = 'Bearer ' + @ct_token
+      options.headers['Authorization'] = 'Bearer ' + CtRegisterMicroservice.config.ct_token
       options.body = body
       result = make_call(options)
       result
@@ -71,7 +77,7 @@ module CtRegisterMicroservice
     end
 
     def make_call(options)
-      return fake_response if @dry_run
+      return fake_response if CtRegisterMicroservice.config.dry_run
 
       result = CtRegisterMicroservice.make_request(options, credentials)
       unless check_errors(result.status.to_i, result.body)

@@ -1,9 +1,6 @@
 module CtRegisterMicroservice
 
-  class MissingCTURLError < StandardError;
-  end
-
-  class MissingCTTokenError < StandardError;
+  class MissingConfigError < StandardError;
   end
 
   class CtRegisterMicroserviceError < StandardError;
