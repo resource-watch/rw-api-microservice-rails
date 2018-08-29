@@ -1,3 +1,5 @@
+require 'ct_register_microservice'
+
 module CtRegisterMicroservice
   class Engine < ::Rails::Engine
     isolate_namespace CtRegisterMicroservice

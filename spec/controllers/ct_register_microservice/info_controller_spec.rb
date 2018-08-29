@@ -17,6 +17,13 @@ module CtRegisterMicroservice
         get :info
         expect(response.status).to eq 500
       end
+
+      it 'Info responds 500 if file is not defined' do
+        CtRegisterMicroservice.config.swagger = nil
+
+        get :info
+        expect(response.status).to eq 500
+      end
     end
 
     describe 'Ping' do

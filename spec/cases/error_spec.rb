@@ -1,5 +1,4 @@
-require 'spec_helper'
-require 'ct_register_microservice'
+require 'rails_helper'
 
 RSpec.describe CtRegisterMicroservice::APIError do
   it "is a CtRegisterMicroservice::CtRegisterMicroserviceError" do

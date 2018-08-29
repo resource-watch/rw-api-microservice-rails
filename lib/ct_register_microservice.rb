@@ -1,8 +1,8 @@
 require 'ct_register_microservice/engine'
-require 'multi_json'
 require 'ct_register_microservice/control_tower'
 require 'ct_register_microservice/http_service'
 require 'ct_register_microservice/errors'
+require 'multi_json'
 require 'ostruct'
 
 module CtRegisterMicroservice

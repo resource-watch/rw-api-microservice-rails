@@ -1,8 +1,13 @@
+require 'ct_register_microservice/errors'
+
 module CtRegisterMicroservice
   class ControlTower
-    def initialize()
+    def initialize
       if CtRegisterMicroservice.config.ct_url.nil?
         raise MissingConfigError, 'Could not register microservice - No Control Tower URL defined'
+      end
+      if CtRegisterMicroservice.config.url.nil?
+        raise MissingConfigError, 'Could not register microservice - No self URL defined'
       end
       if CtRegisterMicroservice.config.ct_token.nil?
         raise MissingConfigError, 'Could not register microservice - No Control Tower auth token found'
@@ -23,7 +28,7 @@ module CtRegisterMicroservice
       @options = OpenStruct.new
     end
 
-    attr_reader :credentials, :options, :response, :ct_url, :swagger, :name
+    attr_reader :credentials, :options, :response, :ct_url, :swagger, :name, :url
 
     def send_query(query)
       options.endpoint = "sql"
@@ -41,17 +46,21 @@ module CtRegisterMicroservice
       result
     end
 
-    def register_service(name, url, active)
+    def register_service(active = true)
       options.http_method = "post"
       options.endpoint = "api/v1/microservice"
       options.query_string = false
       options.body = {
-        name: name,
-        url: url,
+        name: CtRegisterMicroservice.config.name,
+        url: CtRegisterMicroservice.config.url,
         active: !!active
       }
+      begin
       result = make_call(options)
       result
+      rescue StandardError
+        raise CtRegisterMicroserviceError, 'Control Tower not reachable at ' + CtRegisterMicroservice.config.ct_url
+      end
     end
 
     def microservice_request(uri, method, headers = {}, body = nil)
