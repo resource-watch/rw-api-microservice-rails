@@ -155,6 +155,7 @@ PLATFORMS
 
 DEPENDENCIES
   ct-register-microservice!
+  rake
   rspec-rails
   simplecov
   sqlite3

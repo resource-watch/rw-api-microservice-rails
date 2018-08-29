@@ -6,6 +6,8 @@ end
 
 require 'rdoc/task'
 
+load 'lib/tasks/ct_register_microservice.rake'
+
 RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'CtRegisterMicroservice'
