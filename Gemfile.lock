@@ -48,6 +48,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    ansi (1.5.0)
     arel (8.0.0)
     builder (3.2.3)
     concurrent-ruby (1.0.5)
@@ -62,6 +63,7 @@ GEM
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     hashdiff (0.3.7)
+    hirb (0.7.3)
     i18n (1.1.0)
       concurrent-ruby (~> 1.0)
     json (2.1.0)
@@ -129,6 +131,10 @@ GEM
       docile (~> 1.1)
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
+    simplecov-console (0.4.2)
+      ansi
+      hirb
+      simplecov
     simplecov-html (0.10.2)
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
@@ -158,6 +164,7 @@ DEPENDENCIES
   rake
   rspec-rails
   simplecov
+  simplecov-console
   sqlite3
   webmock
 
