@@ -30,6 +30,24 @@ module CtRegisterMicroservice
 
     attr_reader :credentials, :options, :response, :ct_url, :swagger, :name, :url
 
+    # TODO: make sure it works as intended, add unit tests
+    def send_query(query)
+      options.endpoint = "sql"
+      options.query_string = true
+      options.q = query
+      result = make_call(options)
+      result
+    end
+
+    # TODO: make sure it works as intended, add unit tests
+    def post_query(query)
+      options.http_method = "post"
+      options.query_string = false
+      options.endpoint = "sql_post"
+      result = make_call(options)
+      result
+    end
+
     def register_service(active = true)
       options.http_method = "post"
       options.endpoint = "api/v1/microservice"
