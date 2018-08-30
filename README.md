@@ -2,6 +2,8 @@
 
 Rails engine that integrates your rails-build microservices with [Control Tower](https://github.com/control-tower/control-tower)
 
+[![Build Status](https://travis-ci.org/control-tower/ct-register-microservice-rails.svg?branch=master)](https://travis-ci.org/control-tower/ct-register-microservice-rails)
+
 ## Installation
 
 Installing using `bundler` is recommended:
