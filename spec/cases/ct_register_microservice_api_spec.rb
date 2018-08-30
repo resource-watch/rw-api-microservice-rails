@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "CtRegisterMicroservice::API" do
-  before(:each) do
+  before(:all) do
     CtRegisterMicroservice.configure do |config|
       config.ct_url = 'http://control-tower.com'
       config.url = 'myurl.com'
@@ -36,6 +36,9 @@ RSpec.describe "CtRegisterMicroservice::API" do
 
     expect(a_request(:get, request_url).with(request_content)).to have_been_made.once
   end
+  after(:all) do
+    CtRegisterMicroservice.config = nil
+  end
 end
 
 
@@ -53,9 +56,14 @@ RSpec.describe "CtRegisterMicroservice::API dry run requests" do
 
     @service = CtRegisterMicroservice::ControlTower.new()
   end
+
   it "dry runs query requests" do
     expect(CtRegisterMicroservice).to_not receive(:make_request)
     @service.send_query('anything')
+  end
+
+  after(:all) do
+    CtRegisterMicroservice.config = nil
   end
 end
 

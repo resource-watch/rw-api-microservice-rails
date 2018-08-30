@@ -30,22 +30,6 @@ module CtRegisterMicroservice
 
     attr_reader :credentials, :options, :response, :ct_url, :swagger, :name, :url
 
-    def send_query(query)
-      options.endpoint = "sql"
-      options.query_string = true
-      options.q = query
-      result = make_call(options)
-      result
-    end
-
-    def post_query(query)
-      options.http_method = "post"
-      options.query_string = false
-      options.endpoint = "sql_post"
-      result = make_call(options)
-      result
-    end
-
     def register_service(active = true)
       options.http_method = "post"
       options.endpoint = "api/v1/microservice"
@@ -63,6 +47,7 @@ module CtRegisterMicroservice
       end
     end
 
+    # TODO: make sure it works as intended, add unit tests
     def microservice_request(uri, method, headers = {}, body = nil)
       options.http_method = method
       options.endpoint = uri
@@ -78,12 +63,6 @@ module CtRegisterMicroservice
     end
 
     private
-
-    def validate_sync_options(sync_options)
-      valid_options = [:type_guessing, :quoted_fields_guessing, :content_guessing]
-      sync_options = sync_options.map { |o| ((valid_options.include? o[0]) && !!o[1] == o[1]) ? o : nil }.compact.to_h
-      sync_options
-    end
 
     def make_call(options)
       return fake_response if CtRegisterMicroservice.config.dry_run

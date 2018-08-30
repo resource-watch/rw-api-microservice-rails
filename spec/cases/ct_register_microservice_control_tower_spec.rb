@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "CtRegisterMicroservice::ControlTower" do
-  before() do
+  before(:all) do
     CtRegisterMicroservice.configure do |config|
       config.ct_url = 'http://control-tower.com'
       config.url = 'http://my-microservice-url.com'
@@ -46,4 +46,9 @@ RSpec.describe "CtRegisterMicroservice::ControlTower" do
 
     expect(a_request(:post, request_url).with(request_content)).to have_been_made.once
   end
+
+  after(:all) do
+    CtRegisterMicroservice.config = nil
+  end
+
 end

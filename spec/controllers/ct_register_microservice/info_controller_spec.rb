@@ -2,6 +2,17 @@ require 'rails_helper'
 
 module CtRegisterMicroservice
   RSpec.describe InfoController, type: :controller do
+    before(:all) do
+      CtRegisterMicroservice.configure do |config|
+        config.ct_url = 'http://control-tower.com'
+        config.url = 'myurl.com'
+        config.ct_token = 'token'
+        config.swagger = __dir__ + '/../../mocks/mock-swagger.json'
+        config.name = 'Test microservice'
+        config.dry_run = false
+      end
+    end
+
     routes { CtRegisterMicroservice::Engine.routes }
 
     describe 'Get info' do
@@ -30,7 +41,13 @@ module CtRegisterMicroservice
       it 'Ping responds 200' do
         get :ping
         expect(response.status).to eq 200
+        expect(response.body).to eq '{"success":true,"message":"Test microservice"}'
+
       end
+    end
+
+    after(:all) do
+      CtRegisterMicroservice.config = nil
     end
 
   end

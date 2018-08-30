@@ -12,7 +12,7 @@ module CtRegisterMicroservice
     end
 
     def ping
-      render json: { success: true, message: 'RW Tags online' }, status: 200
+      render json: { success: true, message: CtRegisterMicroservice.config.name }, status: 200
     end
   end
 end

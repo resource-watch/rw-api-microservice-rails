@@ -83,4 +83,8 @@ RSpec.describe "CtRegisterMicroservice::API initialization with config" do
 
     expect { CtRegisterMicroservice::ControlTower.new() }.to_not raise_error()
   end
+
+  after(:all) do
+    CtRegisterMicroservice.config = nil
+  end
 end
