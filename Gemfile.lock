@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ct-register-microservice (0.1.0)
+    ct-register-microservice (1.0.0)
       faraday
       multi_json
       rails (~> 5.1.2)
