@@ -19,7 +19,12 @@ require 'simplecov'
 require 'simplecov-console'
 
 SimpleCov.formatter = SimpleCov::Formatter::Console
-SimpleCov.start
+SimpleCov.profiles.define 'no_test_files_coverage' do
+  load_profile 'rails'
+  add_filter 'spec'
+end
+
+SimpleCov.start 'no_test_files_coverage'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

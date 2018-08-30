@@ -2,7 +2,11 @@ require 'rails_helper'
 load 'Rakefile'
 
 describe 'CtRegisterMicroservice::Rake' do
-  before { Rake::Task['ct_register_microservice:register'].reenable }
+  before() do
+    Rake.application = Rake::Application.new
+    Rails.application.load_tasks
+  end
+
   describe 'test rake register' do
     it  'Registering with rake tasks and no config should throw error' do
       CtRegisterMicroservice.config = nil
@@ -12,7 +16,6 @@ describe 'CtRegisterMicroservice::Rake' do
                                                                       'Could not register microservice - No Control Tower URL defined'
                                                                     )
     end
-
 
     it 'Registering with rake tasks full config should call Control Tower endpoint' do
       CtRegisterMicroservice.configure do |config|
