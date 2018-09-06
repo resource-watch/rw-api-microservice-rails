@@ -31,7 +31,6 @@ CtRegisterMicroservice.configure do |config|
       config.ct_token = 'Control Tower auth token'
       config.swagger = __dir__ + 'path/to/your/CT/registration/json/file'
       config.name = 'Name of your microservice'
-      config.dry_run = false
     end
 ```
 
@@ -58,16 +57,6 @@ This engine currently implements two convenience methods:
 
 - `register_microservice()` registers the current Rails microservice on Control Tower. Is currently full-featured and supported
 - `microservice_request()` makes a request to a different microservice within the CT environment. Currently in development, may not work as expected
-
-## Config reference
-
-If you want to use the gem in dry run mode (no calls actually made to CT), set:
-
-```ruby
-CtRegisterMicroservice.configure do |config|
-  config.dry_run = true
-end
-```
 
 ## Contributing
 Feel free to contribute, pull requests are welcome.

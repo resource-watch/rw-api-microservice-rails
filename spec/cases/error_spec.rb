@@ -21,62 +21,13 @@ RSpec.describe CtRegisterMicroservice::APIError do
     expect(CtRegisterMicroservice::APIError.new(400, '').http_status).to eq(400)
   end
 
-  context "with an error_info hash" do
-    let(:error) {
-      error_info = {
-        'type' => 'type',
-        'message' => 'message',
-        'code' => 1,
-        'error_subcode' => 'subcode',
-        'error_user_msg' => 'error user message',
-        'error_user_title' => 'error user title'
-      }
-      CtRegisterMicroservice::APIError.new(400, '', error_info)
-    }
-
-    {
-      :ct_error_type => 'type',
-      :ct_error_message => 'message',
-      :ct_error_code => 1,
-      :ct_error_subcode => 'subcode',
-      :ct_error_user_msg => 'error user message',
-      :ct_error_user_title => 'error user title'
-    }.each_pair do |accessor, value|
-      it "sets #{accessor} to #{value}" do
-        expect(error.send(accessor)).to eq(value)
-      end
-    end
-
-    it "sets the error message appropriately" do
-      expect(error.message).to eq("type: type, code: 1, error_subcode: subcode, message: message, error_user_title: error user title, error_user_msg: error user message [HTTP 400]")
-    end
-  end
-
   context "with an error_info string" do
     it "sets the error message \"error_info [HTTP http_status]\"" do
       error_info = "Control Tower is down."
       error = CtRegisterMicroservice::APIError.new(400, '', error_info)
-      expect(error.message).to eq("Control Tower is down. [HTTP 400]")
+      expect(error.message).to eq("Control Tower is down.")
     end
   end
-
-  context "with no error_info and a response_body containing error JSON" do
-    it "should extract the error info from the response body" do
-      response_body = '{ "error": { "type": "type", "message": "message", "code": 1, "error_subcode": "subcode", "error_user_msg": "error user message", "error_user_title": "error user title" } }'
-      error = CtRegisterMicroservice::APIError.new(400, response_body)
-      {
-        :ct_error_type => 'type',
-        :ct_error_message => 'message',
-        :ct_error_code => 1,
-        :ct_error_subcode => 'subcode',
-        :ct_error_user_msg => 'error user message',
-        :ct_error_user_title => 'error user title'
-      }.each_pair do |accessor, value|
-        expect(error.send(accessor)).to eq(value)
-      end
-    end
-  end
-
 end
 
 RSpec.describe CtRegisterMicroservice::CtRegisterMicroserviceError do

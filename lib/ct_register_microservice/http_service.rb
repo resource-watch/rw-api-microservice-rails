@@ -1,6 +1,7 @@
-require 'faraday'
+require 'httparty'
 require 'ct_register_microservice/http_service/response'
 require 'ct_register_microservice/http_service/endpoint'
+
 module CtRegisterMicroservice
   module HTTPService
     class << self
@@ -8,20 +9,34 @@ module CtRegisterMicroservice
 
     def self.make_request(options, credentials = {})
       http_method = options.http_method&.to_sym || :get
-      ct_url = credentials["ct_url"]
+      url = CtRegisterMicroservice.config.ct_url
+      headers = options.headers || {}
+      headers['Content-Type'] = 'application/json' if options.http_method == 'post' || options.http_method == 'put'
       endpoint = Endpoint.new(options, credentials).get
-      con = Faraday.new(:url => ct_url) do |faraday|
-        faraday.request :multipart
-        faraday.response :logger
-        faraday.adapter Faraday.default_adapter
+
+      case http_method
+      when :get
+        response = HTTParty.get(url+endpoint, headers: headers)
+      when :delete
+        response = HTTParty.delete(url+endpoint, headers: headers)
+      when :post
+        response = HTTParty.post(url+endpoint, {
+          headers: headers,
+          body: options.body.to_json
+        })
+      when :put
+        response = HTTParty.put(url+endpoint, {
+          headers: headers,
+          body: options.body.to_json
+        })
+      when :patch
+        response = HTTParty.patch(url+endpoint, {
+          headers: headers,
+          body: options.body.to_json
+        })
       end
-      response = con.send(http_method) do |req|
-        req.url "#{endpoint}"
-        req.headers = options.headers || {}
-        req.headers['Content-Type'] = 'application/json' if options.http_method == 'post' || options.http_method == 'put'
-        req.body = options.body.to_json if options.http_method == 'post' || options.http_method == 'put'
-      end
-      CtRegisterMicroservice::HTTPService::Response.new(response.status.to_i, response.body, response.headers)
+
+      CtRegisterMicroservice::HTTPService::Response.new(response.code.to_i, response.body, response.headers)
     end
   end
 end
