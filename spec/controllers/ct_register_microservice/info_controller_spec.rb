@@ -9,7 +9,6 @@ module CtRegisterMicroservice
         config.ct_token = 'token'
         config.swagger = __dir__ + '/../../mocks/mock-swagger.json'
         config.name = 'Test microservice'
-        config.dry_run = false
       end
     end
 

@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'ct_register_microservice'
 
 RSpec.describe "CtRegisterMicroservice::API initialization with config" do
   before do

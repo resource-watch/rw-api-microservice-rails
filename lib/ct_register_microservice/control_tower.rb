@@ -22,47 +22,22 @@ module CtRegisterMicroservice
         raise MissingConfigError, 'Could not register microservice - Microservice name not defined'
       end
 
-      @dry_run = CtRegisterMicroservice.config.dry_run || false
-      @credentials = {}
-      @credentials['ct_url'] = CtRegisterMicroservice.config.ct_url
       @options = OpenStruct.new
     end
 
     attr_reader :credentials, :options, :response, :ct_url, :swagger, :name, :url
 
-    # TODO: make sure it works as intended, add unit tests
-    def send_query(query)
-      options.endpoint = "sql"
-      options.query_string = true
-      options.q = query
-      result = make_call(options)
-      result
-    end
-
-    # TODO: make sure it works as intended, add unit tests
-    def post_query(query)
-      options.http_method = "post"
-      options.query_string = false
-      options.endpoint = "sql_post"
-      result = make_call(options)
-      result
-    end
-
     def register_service(active = true)
       options.http_method = "post"
-      options.endpoint = "api/v1/microservice"
+      options.endpoint = "/api/v1/microservice"
       options.query_string = false
       options.body = {
         name: CtRegisterMicroservice.config.name,
         url: CtRegisterMicroservice.config.url,
         active: !!active
       }
-      begin
       result = make_call(options)
       result
-      rescue StandardError
-        raise CtRegisterMicroserviceError, 'Control Tower not reachable at ' + CtRegisterMicroservice.config.ct_url
-      end
     end
 
     # TODO: make sure it works as intended, add unit tests
@@ -83,8 +58,6 @@ module CtRegisterMicroservice
     private
 
     def make_call(options)
-      return fake_response if CtRegisterMicroservice.config.dry_run
-
       result = CtRegisterMicroservice.make_request(options, credentials)
       unless check_errors(result.status.to_i, result.body)
         MultiJson.load("[#{result.body.to_s}]")[0]
@@ -95,22 +68,18 @@ module CtRegisterMicroservice
 
     def check_errors(status, body)
       case status
-        when 500
-          initialize_options
-          raise CtRegisterMicroservice::ServerError.new(status, '')
-        when 401
-          initialize_options
-          raise CtRegisterMicroservice::NoTokenError.new(status, body)
-        when 404
-          initialize_options
-          raise CtRegisterMicroservice::NotFoundError.new(status, '')
-        else
-          return false
+      when 500
+        initialize_options
+        raise CtRegisterMicroservice::ServerError.new(status, body)
+      when 401
+        initialize_options
+        raise CtRegisterMicroservice::NoTokenError.new(status, body)
+      when 404
+        initialize_options
+        raise CtRegisterMicroservice::NotFoundError.new(status, body)
+      else
+        return false
       end
-    end
-
-    def fake_response
-      CtRegisterMicroservice::HTTPService::Response.new(200, "", "")
     end
   end
 end

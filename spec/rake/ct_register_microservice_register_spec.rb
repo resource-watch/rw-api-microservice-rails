@@ -24,7 +24,6 @@ describe 'CtRegisterMicroservice::Rake' do
         config.ct_token = 'token'
         config.swagger = __dir__ + '/../mocks/mock-swagger.json'
         config.name = 'Test'
-        config.dry_run = false
       end
 
       request_url = "http://control-tower.com/api/v1/microservice"
