@@ -17,7 +17,7 @@ RSpec.describe "CtRegisterMicroservice::API" do
     request_url = "http://control-tower.com/api/v1/other-microservice"
     request_content = {
       headers: {
-        Authorization: 'Bearer token'
+        Authentication: 'token'
       }
     }
 
@@ -32,7 +32,7 @@ RSpec.describe "CtRegisterMicroservice::API" do
     request_url = "http://control-tower.com/api/v1/other-microservice"
     request_content = {
       headers: {
-        Authorization: 'Bearer token'
+        Authentication: 'token'
       }
     }
 
@@ -47,7 +47,7 @@ RSpec.describe "CtRegisterMicroservice::API" do
     request_url = "http://control-tower.com/api/v1/other-microservice"
     request_content = {
       headers: {
-        Authorization: 'Bearer token'
+        Authentication: 'token'
       }
     }
 
