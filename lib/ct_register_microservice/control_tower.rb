@@ -35,7 +35,7 @@ module CtRegisterMicroservice
         name: CtRegisterMicroservice.config.name,
         url: CtRegisterMicroservice.config.url,
         active: !!active
-      }
+      }.to_json
       result = make_call(options)
       result
     end

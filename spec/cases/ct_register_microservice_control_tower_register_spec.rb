@@ -36,7 +36,7 @@ RSpec.describe "CtRegisterMicroservice::ControlTower register" do
         name: 'Test',
         url: 'http://my-microservice-url.com',
         active: true
-      }.to_json,
+      },
       headers: {
         'Content-Type' => 'application/json'
       }
