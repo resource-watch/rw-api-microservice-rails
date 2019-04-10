@@ -42,7 +42,7 @@ RSpec.describe "CtRegisterMicroservice::ControlTower request" do
     request_content = {
       body: {
         foo: 'bar'
-      }.to_json,
+      },
       headers: {
         'Authentication' => 'token'
       }
@@ -65,7 +65,7 @@ RSpec.describe "CtRegisterMicroservice::ControlTower request" do
     request_content = {
       body: {
         foo: 'bar'
-      }.to_json,
+      },
       headers: {
         'Authentication' => 'token'
       }
@@ -88,7 +88,7 @@ RSpec.describe "CtRegisterMicroservice::ControlTower request" do
     request_content = {
       body: {
         foo: 'bar'
-      }.to_json,
+      },
       headers: {
         'Authentication' => 'token'
       }

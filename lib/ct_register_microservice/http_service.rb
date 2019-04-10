@@ -13,6 +13,7 @@ module CtRegisterMicroservice
       headers = options.headers || {}
       headers['Content-Type'] = 'application/json' if options.http_method == 'post' || options.http_method == 'put'
       endpoint = Endpoint.new(options, credentials).get
+      body = options.body
 
       case http_method
       when :get
@@ -22,17 +23,17 @@ module CtRegisterMicroservice
       when :post
         response = HTTParty.post(url+endpoint, {
           headers: headers,
-          body: options.body.to_json
+          body: body
         })
       when :put
         response = HTTParty.put(url+endpoint, {
           headers: headers,
-          body: options.body.to_json
+          body: body
         })
       when :patch
         response = HTTParty.patch(url+endpoint, {
           headers: headers,
-          body: options.body.to_json
+          body: body
         })
       end
 
