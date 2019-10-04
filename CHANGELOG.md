@@ -1,3 +1,6 @@
+#1.3.1
+- Update rails version dependency to `~>5.1`
+
 #1.3.0
 - Fix issue in body serialization on requests to CT
 

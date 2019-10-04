@@ -63,3 +63,10 @@ Feel free to contribute, pull requests are welcome.
 
 ## License
 The engine is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+
+## Testing
+
+```bash
+bundle exec rspec spec
+```
