@@ -44,7 +44,7 @@ RSpec.describe "CtRegisterMicroservice::ControlTower request" do
         foo: 'bar'
       },
       headers: {
-        'Authentication' => 'token'
+        authorization: 'Bearer token'
       }
     }
 
@@ -67,7 +67,7 @@ RSpec.describe "CtRegisterMicroservice::ControlTower request" do
         foo: 'bar'
       },
       headers: {
-        'Authentication' => 'token'
+        authorization: 'Bearer token'
       }
     }
 
@@ -90,7 +90,7 @@ RSpec.describe "CtRegisterMicroservice::ControlTower request" do
         foo: 'bar'
       },
       headers: {
-        'Authentication' => 'token'
+        authorization: 'Bearer token'
       }
     }
 
@@ -110,7 +110,7 @@ RSpec.describe "CtRegisterMicroservice::ControlTower request" do
     request_url = "http://control-tower.com/test/microservice-get"
     request_content = {
       headers: {
-        'Authentication' => 'token'
+        authorization: 'Bearer token'
       }
     }
 

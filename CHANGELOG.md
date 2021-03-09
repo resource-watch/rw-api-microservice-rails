@@ -1,3 +1,6 @@
+#1.4.0
+- Replace `Authentication: xxx` with `authorization: Bearer xxx` token.
+
 #1.3.1
 - Update rails version dependency to `~>5.1`
 

@@ -45,7 +45,7 @@ module CtRegisterMicroservice
       options.http_method = method
       options.endpoint = uri
       options.headers = headers
-      options.headers['Authentication'] = CtRegisterMicroservice.config.ct_token
+      options.headers['authorization'] = 'Bearer '+CtRegisterMicroservice.config.ct_token
       options.body = body
       result = make_call(options)
       result
