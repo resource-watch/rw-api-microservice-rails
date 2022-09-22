@@ -1,9 +1,9 @@
-# Control Tower registration Rails engine
+# Api Gateway registration Rails engine
 
-Rails engine that integrates your rails-build microservices with [Control Tower](https://github.com/control-tower/control-tower)
+Rails engine that integrates your rails-build microservices with the [RW API](https://api.resourcewatch.org/)
 
-[![Build Status](https://travis-ci.org/control-tower/ct-register-microservice-rails.svg?branch=master)](https://travis-ci.org/control-tower/ct-register-microservice-rails)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/85eeb71033246c5c259d/test_coverage)](https://codeclimate.com/github/control-tower/ct-register-microservice-rails/test_coverage)
+[![Build Status](https://travis-ci.org/control-tower/rw-api-microservice-rails.svg?branch=master)](https://travis-ci.org/control-tower/rw-api-microservice-rails)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/85eeb71033246c5c259d/test_coverage)](https://codeclimate.com/github/control-tower/rw-api-microservice-rails/test_coverage)
 
 ## Installation
 
@@ -12,7 +12,7 @@ Installing using `bundler` is recommended:
 ```ruby
 # Gemfile
 
-gem 'ct-register-microservice-rails'
+gem 'rw-api-microservice-rails'
 ```
 
 And then execute:
@@ -22,41 +22,22 @@ $ bundle install
 
 ## Usage
 
-Create a Rails initializer to define your connection settings and connect to Control Tower. 
+Create a Rails initializer to define your connection settings to the RW API Gateway 
+
 ```ruby
-#config/initializers/ct_register_microservice.rb
-CtRegisterMicroservice.configure do |config|
-      config.ct_url = 'http://your-control-tower-url.com'
-      config.url = 'http://your-rails-microservice-url.com'
-      config.ct_token = 'Control Tower auth token'
-      config.swagger = __dir__ + 'path/to/your/CT/registration/json/file'
-      config.name = 'Name of your microservice'
+#config/initializers/rw_api_microservice.rb
+RwApiMicroservice.configure do |config|
+      config.gateway_url = 'http://your-gateway-url.com'
+      config.microservice_token = 'Gateway auth token'
     end
-```
-
-After the configuration values are defined, use the following code to have your microservice register itself on Control Tower:
-
- ```ruby
-ct_connection = CtRegisterMicroservice::ControlTower.new()
-ct_connection.register_service()
-```
-
-Keep in mind that this registration process will result in Control Tower contacting your Rails server almost immediately.
-Using it in Rails initializers will trigger it *before* the Rails HTTP server is up, causing the registration process to fail.
-
-For this purpose, this engine also includes a Rake task that can be used to trigger this registration process:
-
-```bash
-rake ct_register_microservice:register
 ```
 
 
 ## Current methods
 
-This engine currently implements two convenience methods:
+This engine currently implements a convenience method:
 
-- `register_microservice()` registers the current Rails microservice on Control Tower. Is currently full-featured and supported
-- `microservice_request()` makes a request to a different microservice within the CT environment. Currently in development, may not work as expected
+- `microservice_request()` makes a request to a different microservice within the RW API environment.
 
 ## Contributing
 Feel free to contribute, pull requests are welcome.

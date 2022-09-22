@@ -6,11 +6,11 @@ end
 
 require 'rdoc/task'
 
-load 'lib/tasks/ct_register_microservice.rake'
+load 'lib/tasks/rw_api_microservice.rake'
 
 RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'CtRegisterMicroservice'
+  rdoc.title    = 'RwApiMicroservice'
   rdoc.options << '--line-numbers'
   rdoc.rdoc_files.include('README.md')
   rdoc.rdoc_files.include('lib/**/*.rb')
